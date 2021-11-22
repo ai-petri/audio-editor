@@ -11,6 +11,27 @@ var bufferSource;
 var audioBuffer;
 var currentSample = 0;
 
+var selection = 
+{
+    enabled: true,
+    start: 0,
+    end: 0,
+
+    get firstSample()
+    {
+        return Math.min(this.start, this.end);
+    },
+    get lastSample()
+    {
+        return Math.max(this.start, this.end);
+    },
+    get length()
+    {
+        return this.lastSample - this.firstSample;
+    }
+}
+
+
 var selectedTool = 0;
 
 var button = document.querySelector("#loadButton");
@@ -34,6 +55,10 @@ canvas.addEventListener("mousedown", e=>
     {
         let x = e.clientX - canvas.getBoundingClientRect().x;
         currentSample = Math.round(x/hScale + offset);
+        selection.enabled = false;
+        selection.start = currentSample;
+        cursor.style.background = "black";
+        render();
         updateTime();
         updateCursor();
     }
@@ -51,18 +76,19 @@ canvas.addEventListener("mousemove", e=>
                 {
                     offset = 0;
                 }
-                render();
-                updateCursor();
                 break;
             case 1:
                 {
                     let x = e.clientX - canvas.getBoundingClientRect().x;
                     currentSample = Math.round(x/hScale + offset);
-                    updateTime();
-                    updateCursor();
+                    selection.end = currentSample;
+                    selection.enabled = true;
                 }
                 break;
         }
+        render();
+        updateCursor();
+        updateTime();
     }
 });
 canvas.addEventListener("wheel", e=>
@@ -110,19 +136,55 @@ function render()
     var n = audioBuffer.numberOfChannels;
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    
+    if(selection.enabled)
+    {
+        ctx.fillRect((selection.firstSample - offset)*hScale, 0, (selection.lastSample - selection.firstSample)*hScale, canvas.height);
+    }
+
     ctx.beginPath();
-
-
     for(let i=0; i<n; i++)
     {
         let data = audioBuffer.getChannelData(i);
         let y = (i+0.5)*canvas.height/n;
 
+
         ctx.moveTo(0,y);
-        for(let j=0; j<canvas.width/hScale; j++)
+        
+        if(selection.enabled)
         {
-            ctx.lineTo(j*hScale, y - vScale*data[j + offset]);
+            let selectionStart = selection.firstSample - offset;
+            let selectionEnd = selection.lastSample - offset;
+
+            for(let j=0; j<=selectionStart; j++)
+            {
+                ctx.lineTo(j*hScale, y - vScale*data[j + offset]);   
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "white";
+            for(let j=selectionStart; j<=selectionEnd; j++)
+            {
+                ctx.lineTo(j*hScale, y - vScale*data[j + offset]); 
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "black";
+            for(let j=selectionEnd; j<=canvas.width/hScale; j++)
+            {
+                ctx.lineTo(j*hScale, y - vScale*data[j + offset]);
+            }
         }
+        else
+        {
+            for(let j=0; j<canvas.width/hScale; j++)
+            {
+                ctx.lineTo(j*hScale, y - vScale*data[j + offset]);   
+            }
+        }
+        
     }
 
     ctx.stroke();
@@ -160,24 +222,32 @@ function play()
     bufferSource = audioContext.createBufferSource();
     bufferSource.buffer = audioBuffer;
     bufferSource.connect(audioContext.destination);
-    bufferSource.start(0,firstSample/audioContext.sampleRate);
+
+    if(selection.enabled)
+    {
+        cursor.style.background = "white";
+        firstSample = selection.firstSample;
+        bufferSource.start(0,firstSample/audioContext.sampleRate,selection.length/audioContext.sampleRate);
+    }
+    else
+    {
+        bufferSource.start(0,firstSample/audioContext.sampleRate);
+    }
 
 
     function update()
     {
-        if(currentSample<audioBuffer.length)
+        if(!isPlaying | currentSample>audioBuffer.length | (selection.enabled && currentSample>selection.lastSample))
         {
-            if(isPlaying)
-            {
-                currentSample = firstSample + (audioContext.currentTime - time)*audioContext.sampleRate;
-                requestAnimationFrame(update);
-            }      
+            currentSample = 0;
+            cursor.style.background = "black";
+            isPlaying = false;
+            bufferSource = undefined;
         }
         else
         {
-            currentSample = 0;
-            isPlaying = false;
-            bufferSource = undefined;
+            currentSample = firstSample + (audioContext.currentTime - time)*audioContext.sampleRate;
+            requestAnimationFrame(update);
         }
         updateTime();
         updateCursor();
