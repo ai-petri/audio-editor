@@ -239,7 +239,7 @@ function play()
     {
         if(!isPlaying | currentSample>audioBuffer.length | (selection.enabled && currentSample>selection.lastSample))
         {
-            currentSample = 0;
+            currentSample = firstSample;
             cursor.style.background = "black";
             isPlaying = false;
             bufferSource = undefined;
