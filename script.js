@@ -272,3 +272,31 @@ function stop()
     updateTime();
     updateCursor();
 }
+
+function cut()
+{
+    if(!audioBuffer | !selection.enabled) return;
+
+    var result = audioContext.createBuffer(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate);
+
+    for(let i=0; i<audioBuffer.numberOfChannels; i++)
+    {
+        let array = new Float32Array(audioBuffer.length);
+        audioBuffer.copyFromChannel(array, i, 0);
+        result.copyToChannel(array, i, 0);
+
+        array = new Float32Array(audioBuffer.length);
+        audioBuffer.copyFromChannel(array, i, selection.lastSample);
+        result.copyToChannel(array, i, selection.firstSample);
+
+        
+    }
+
+    audioBuffer = result;
+
+    selection.enabled = false;
+    currentSample = selection.firstSample;
+    updateTime();
+    updateCursor();
+    render();
+}
