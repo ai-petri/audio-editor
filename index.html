@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <button id="loadButton">Load</button>
+        <button id="playButton" onclick="play()">Play</button>
+        <button id="pauseButton" onclick="pause()">Pause</button>
+        <button id="stopButton" onclick="stop()">Stop</button>
+        <span id="timer">00:00.00</span>
+        <button onclick="selectedTool = 0">move</button>
+        <button onclick="selectedTool = 1">select</button>
+    </div>
+    <div class="container">
+        <canvas width="800" height="600"></canvas>
+        <div id="cursor"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

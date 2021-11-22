@@ -1,0 +1,25 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+canvas{
+    margin-top: 5px;
+    border: 1px solid black;
+}
+
+.container{
+    position: relative;
+}
+#cursor{
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    width: 1px;
+    height: 600px;
+    background-color: black;
+}
+
+#timer{
+    margin-right: 50px;
+}
