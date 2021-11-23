@@ -9,6 +9,7 @@ var reader = new FileReader();
 var audioContext = new AudioContext();
 var bufferSource;
 var audioBuffer;
+var data = [];
 var currentSample = 0;
 
 var selection = 
@@ -299,4 +300,18 @@ function cut()
     updateTime();
     updateCursor();
     render();
+}
+
+function copy()
+{
+    if(!audioBuffer | !selection.enabled) return;
+
+    data = [];
+
+    for(let i=0; i<audioBuffer.numberOfChannels; i++)
+    {
+        let array = new Float32Array(selection.length);
+        audioBuffer.copyFromChannel(array, i, selection.firstSample);
+        data.push(array);
+    }
 }
