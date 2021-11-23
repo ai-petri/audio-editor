@@ -278,6 +278,8 @@ function cut()
 {
     if(!audioBuffer | !selection.enabled) return;
 
+    copy();
+
     var result = audioContext.createBuffer(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate);
 
     for(let i=0; i<audioBuffer.numberOfChannels; i++)
