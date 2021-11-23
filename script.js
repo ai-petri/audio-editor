@@ -315,3 +315,36 @@ function copy()
         data.push(array);
     }
 }
+
+function paste()
+{
+    if(!audioBuffer) return;
+
+    var start = selection.enabled? selection.firstSample : currentSample;
+    var end = selection.enabled? selection.lastSample : currentSample;
+    var removed = selection.enabled? selection.length : 0;
+
+    var resultLength = audioBuffer.length - removed + data[0].length;
+
+    var result = audioContext.createBuffer(audioBuffer.numberOfChannels, resultLength, audioBuffer.sampleRate);
+
+    for(let i=0; i<audioBuffer.numberOfChannels && i<data.length; i++)
+    {
+        let array = new Float32Array(start);
+        audioBuffer.copyFromChannel(array, i, 0);
+        result.copyToChannel(array, i, 0);
+        result.copyToChannel(data[i], i, start);
+        array = new Float32Array(audioBuffer.length - end);
+        audioBuffer.copyFromChannel(array, i, end);
+        result.copyToChannel(array, i, start + data[0].length);
+    }
+
+    audioBuffer = result;
+    selection.enabled = true;
+    selection.start = start;
+    selection.end = start + data[0].length;
+    render();
+    updateTime();
+    updateCursor();
+    
+}
