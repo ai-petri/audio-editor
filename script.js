@@ -350,3 +350,26 @@ function paste()
     updateCursor();
     
 }
+
+function changeVolume(f)
+{
+    if(!audioBuffer | !selection.enabled) return;
+
+    var temp = data;
+    copy();
+
+    data = data.map(f);
+
+    paste();
+    data = temp;
+}
+
+function fadeIn()
+{
+    changeVolume(samples=>samples.map((sample,index)=>sample*index/samples.length));
+}
+
+function fadeOut()
+{
+    changeVolume(samples=>samples.map((sample,index)=>sample*(1 - index/samples.length)));
+}
