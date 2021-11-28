@@ -9,18 +9,85 @@
 </head>
 <body>
     <div>
-        <button id="loadButton">Load</button>
-        <button id="playButton" onclick="play()">Play</button>
-        <button id="pauseButton" onclick="pause()">Pause</button>
-        <button id="stopButton" onclick="stop()">Stop</button>
+        
+        <button id="playButton" onclick="play()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <polygon points="3,4 18,12 3,18"></polygon>
+            </svg>
+        </button>
+        <button id="pauseButton" onclick="pause()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <rect x="4" y="4" width="4" height="14"></rect>
+                <rect x="12" y="4" width="4" height="14"></rect>
+            </svg>
+        </button>
+        <button id="stopButton" onclick="stop()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <rect x="3" y="4" width="14" height="14"></rect>
+            </svg>
+        </button>
+        <button id="loadButton">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <polygon points="2,12 10,4 18,12"></polygon>
+                <rect x="2" y="14" width="16" height="4"></rect>
+            </svg>
+        </button>
         <span id="timer">00:00.00</span>
-        <button onclick="selectedTool = 0">move</button>
-        <button onclick="selectedTool = 1">select</button>
-        <button onclick="cut()">cut</button>
-        <button onclick="copy()">copy</button>
-        <button onclick="paste()">paste</button>
-        <button onclick="fadeIn()">fade in</button>
-        <button onclick="fadeOut()">fade out</button>
+        <button onclick="selectedTool = 0">
+            <svg width="20" height="20" viewBox="0 -2 20 20">
+                <polygon points="2,10 6,3 6,8 14,8 14,3 18,10 14,17 14,12 6,12 6,17"></polygon>
+            </svg>
+        </button>
+        <button onclick="selectedTool = 1">
+            <svg width="20" height="20" viewBox="0 0 20 20" stroke="black" stroke-width="2">
+                <line x1="4" y1="2" x2="8" y2="2" ></line>
+                <line x1="4" y1="19" x2="8" y2="19" ></line>
+                <line x1="6" y1="2" x2="6" y2="19"></line>
+                <rect x="2" y="7" width="16" height="8" fill="none"></rect>
+            </svg>
+        </button>
+        <button onclick="cut()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <path fill="black" d="M18.139,12.834c-0.97-0.812-1.702-0.969-3.141-0.393c-1.438,0.575-4.605-6.282-4.605-6.282L7.147,1.292
+                    C6.892,1.037,6.977,0.96,6.755,1.17C6.715,1.207,6.75,1.049,7.081,2.14c0.314,1.039,2.43,5.345,2.43,5.345l7.188,11.97
+                    c0,0,2.591-1.544,2.723-2.224C19.551,16.55,19.106,13.646,18.139,12.834z M16.647,18.043c-0.183,0.079-2.197-3.638-2.197-3.9
+                    c0-0.262,2.041-1.779,3.009-0.443c0.968,1.335,1.127,2.25,1.127,2.747S16.83,17.964,16.647,18.043z"/>
+                <path fill="black" d="M0.664,17.231c0.132,0.68,2.723,2.224,2.723,2.224l7.188-11.97c0,0,2.116-4.306,2.43-5.345
+                    c0.33-1.091,0.365-0.933,0.326-0.97c-0.223-0.21-0.139-0.133-0.393,0.122L9.692,6.16c0,0-3.167,6.857-4.605,6.282
+                    c-1.438-0.576-2.171-0.419-3.141,0.393C0.978,13.646,0.534,16.55,0.664,17.231z M1.499,16.446c0-0.497,0.159-1.412,1.127-2.747
+                    c0.968-1.336,3.009,0.182,3.009,0.443c0,0.263-2.015,3.979-2.197,3.9S1.499,16.943,1.499,16.446z"/>
+            </svg>
+        </button>
+        <button onclick="copy()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <rect x="6" y="6" width="8" height="12" stroke="black" stroke-width="2" fill="none"></rect>
+                <rect x="3" y="3" width="8" height="12" stroke="black" stroke-width="2" fill="white"></rect>
+                
+            </svg>
+        </button>
+        <button onclick="paste()">
+            <svg width="20" height="20" viewBox="0 0 20 20">
+                <rect x="3" y="3" width="8" height="12" stroke="black" stroke-width="2" fill="grey"></rect>
+                <rect x="6" y="6" width="8" height="12" stroke="black" stroke-width="2" fill="white"></rect>
+                
+            </svg>
+        </button>
+        <button onclick="fadeIn()">
+            <svg width="20" height="20" viewBox="0 -2 20 20">
+                <path fill="none" stroke="black" stroke-width="2" d="M1.201,8.737c0.279-0.744,0.279-0.744,0.627-1.464
+                    c0.312-0.645,0.813-0.883,1.186,0c0.366,0.87,0.767,2.115,1.092,2.626s0.906,0.441,1.185,0s0.824-4.47,1.325-5.322
+                    c0.465-0.79,1.061-0.5,1.278-0.093c0.372,0.697,1.524,8.329,1.743,9.156c0.363,1.371,2.045,1.093,2.324,0.279
+                    c0.176-0.513,1.998-12.386,2.812-12.944s1.255-0.472,1.511,0c0.279,0.516,0.953,16.105,1.371,16.872s1.836,0.395,1.976-0.07"/>
+            </svg>
+        </button>
+        <button onclick="fadeOut()">
+            <svg width="20" height="20" viewBox="0 -2 20 20">
+                <path fill="none" stroke="black" stroke-width="2" d="M19.629,8.737c-0.278-0.744-0.278-0.744-0.627-1.464
+                    c-0.313-0.645-0.813-0.883-1.186,0c-0.366,0.87-0.768,2.115-1.092,2.626c-0.326,0.511-0.906,0.441-1.186,0s-0.824-4.47-1.324-5.322
+                    c-0.465-0.79-1.062-0.5-1.278-0.093c-0.372,0.697-1.524,8.329-1.743,9.156c-0.363,1.371-2.045,1.093-2.324,0.279
+                    C8.693,13.407,6.871,1.534,6.058,0.976s-1.255-0.472-1.511,0C4.268,1.491,3.594,17.081,3.176,17.848S1.34,18.242,1.2,17.777"/>
+            </svg>
+        </button>
     </div>
     <div class="container">
         <canvas width="800" height="600"></canvas>
