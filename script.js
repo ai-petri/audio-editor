@@ -238,14 +238,14 @@ function play()
 
     function update()
     {
-        if(!isPlaying | currentSample>audioBuffer.length | (selection.enabled && currentSample>selection.lastSample))
+        if(currentSample>audioBuffer.length | (selection.enabled && currentSample>selection.lastSample))
         {
             currentSample = firstSample;
             cursor.style.background = "black";
             isPlaying = false;
             bufferSource = undefined;
         }
-        else
+        else if(isPlaying)
         {
             currentSample = firstSample + (audioContext.currentTime - time)*audioContext.sampleRate;
             requestAnimationFrame(update);
