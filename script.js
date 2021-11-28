@@ -14,7 +14,7 @@ var currentSample = 0;
 
 var selection = 
 {
-    enabled: true,
+    enabled: false,
     start: 0,
     end: 0,
 
